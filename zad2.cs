@@ -10,23 +10,21 @@ class Person
     private string JobTitle;
     private string Company;
     private string Email = "Email: ";
-    private string PhoneNumber = "Phone: ";
     private string Adress = "Adres: ";
+
     public Person(string firstName, string lastName, string jobTitle, string company, 
-                  string email, string phoneNumber, string address)
+                  string email, string address)
     {
         FirstName = firstName;
         LastName = lastName;
         JobTitle = jobTitle;
         Company = company;
-        
+
         Email = string.IsNullOrEmpty(email) ? "Email: " : "Email: " + email;
-        PhoneNumber = string.IsNullOrEmpty(phoneNumber) ? "Phone: " : "Phone: " + phoneNumber;
         Adress = string.IsNullOrEmpty(address) ? "Adres: " : "Adres: " + address;
     }
 
     public string GetEmail() { return Email; }
-    public string GetPhoneNumber() { return PhoneNumber; }
     public string GetAdress() { return Adress; }
 
     public void DisplayShortInfo()
@@ -59,9 +57,6 @@ class Person
 
         if (!string.IsNullOrEmpty(Email))
             szerokosc = Math.Max(szerokosc, Email.Length);
-        
-        if (!string.IsNullOrEmpty(PhoneNumber))
-            szerokosc = Math.Max(szerokosc, PhoneNumber.Length);
 
         if (!string.IsNullOrEmpty(Adress))
             szerokosc = Math.Max(szerokosc, Adress.Length);
@@ -73,8 +68,10 @@ class Person
         int srodek = (szerokosc - (FirstName.Length + LastName.Length + 1)) / 2;
         Console.WriteLine(new string(' ', srodek) + FirstName + " " + LastName);
 
-        if(!string.IsNullOrEmpty(JobTitle) || !string.IsNullOrEmpty(Company) || (((string.IsNullOrEmpty(JobTitle) && string.IsNullOrEmpty(Company)) && (Email != "Email: ") || (PhoneNumber != "Phone: ") && (Adress != "Adres: "))))
-        Console.WriteLine(new string(znak2, szerokosc));
+        if (!string.IsNullOrEmpty(JobTitle) || !string.IsNullOrEmpty(Company) ||
+            ((string.IsNullOrEmpty(JobTitle) && string.IsNullOrEmpty(Company)) &&
+             (Email != "Email: " || Adress != "Adres: ")))
+            Console.WriteLine(new string(znak2, szerokosc));
 
         if (!string.IsNullOrEmpty(JobTitle))
             Console.WriteLine(JobTitle);
@@ -82,14 +79,12 @@ class Person
         if (!string.IsNullOrEmpty(Company))
             Console.WriteLine(Company);
 
-        if((!string.IsNullOrEmpty(JobTitle) || !string.IsNullOrEmpty(Company)) && (( (Email != "Email: ") || (PhoneNumber != "Phone: ") || (Adress != "Adres: "))))
+        if ((!string.IsNullOrEmpty(JobTitle) || !string.IsNullOrEmpty(Company)) &&
+            (Email != "Email: " || Adress != "Adres: "))
             Console.WriteLine(new string(znak2, szerokosc));
 
         if (Email != "Email: ")
             Console.WriteLine(Email);
-
-        if (PhoneNumber != "Phone: ")
-            Console.WriteLine(PhoneNumber);
 
         if (Adress != "Adres: ")
             Console.WriteLine(Adress);
@@ -105,9 +100,9 @@ class Person
         do
         {
             Console.WriteLine("=== Dodawanie wizytówki ===");
-            
+
             string firstName, lastName;
-            
+
             do
             {
                 Console.Write("Podaj imię: ");
@@ -139,15 +134,12 @@ class Person
                 }
             }
 
-            Console.Write("Podaj numer telefonu: ");
-            string phoneNumber = Console.ReadLine();
-
             Console.Write("Podaj adres: ");
             string address = Console.ReadLine();
             Console.WriteLine();
 
-            wizytowki.Add(new Person(firstName, lastName, jobTitle, company, 
-                                    email, phoneNumber, address));
+            wizytowki.Add(new Person(firstName, lastName, jobTitle, company,
+                                    email, address));
 
             Console.Write("Czy chcesz dodać kolejną wizytówkę? (tak/nie): ");
             opcja = Console.ReadLine();
